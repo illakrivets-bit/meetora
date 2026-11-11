@@ -3,187 +3,723 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#080808">
 <meta name="description" content="Meetora — Connect. Share. Discover.">
+<link rel="manifest" href="./manifest.json">
 <title>Meetora</title>
+
 <style>
-:root {
-  --bg:#080808; --panel:#141414; --panel2:#1c1c1c;
-  --text:#f7f7f7; --muted:#929292; --line:#292929;
-  --accent:#fff; --radius:20px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Manrope,Arial,sans-serif;min-height:100vh}
-button,input{font:inherit}
-button{cursor:pointer;color:inherit}
-.app{max-width:560px;margin:auto;min-height:100vh;padding-bottom:90px}
-header{padding:22px 20px 14px;display:flex;align-items:center;justify-content:space-between}
-.brand{font-size:25px;font-weight:850;letter-spacing:-1.5px}
-.brand span{color:#888}
-.avatar{width:42px;height:42px;border-radius:15px;background:#fff;color:#080808;display:grid;place-items:center;font-size:19px;font-weight:900}
-main{padding:10px 20px}
-.page{display:none}.page.active{display:block}
-.eyebrow{font-size:12px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
-h1{font-size:30px;letter-spacing:-1.3px;margin:8px 0 5px}
-h2{font-size:19px;margin:0 0 14px}
-p{color:var(--muted);line-height:1.5}
-.section{margin-top:28px}
-.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.section-head h2{margin:0}
-.link{background:none;border:0;color:var(--muted);font-size:13px}
-.hero{padding:22px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,#1c1c1c,#101010);margin-top:20px}
-.hero h2{font-size:22px;margin:8px 0}
-.hero p{font-size:14px;margin:0 0 17px}
-.pill{border:0;background:#fff;color:#080808;border-radius:30px;padding:11px 17px;font-weight:750}
-.stats{display:flex;gap:9px;margin-top:17px}
-.stat{flex:1;background:var(--panel);border:1px solid var(--line);padding:13px;border-radius:16px}
-.stat strong{display:block;font-size:20px}.stat small{color:var(--muted)}
-.moments{display:flex;gap:14px;overflow:auto;padding-bottom:5px}
-.moment{min-width:65px;text-align:center;font-size:12px;color:var(--muted)}
-.moment-circle{height:58px;width:58px;border:1px solid #777;border-radius:21px;display:grid;place-items:center;font-size:22px;margin:0 auto 7px;background:var(--panel)}
-.moment:first-child .moment-circle{background:#fff;color:#080808}
-.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.quick button{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:17px;text-align:left;min-height:90px}
-.quick b{display:block;margin-bottom:6px}.quick small{color:var(--muted)}
-.chat-list{display:grid;gap:9px}
-.chat{display:flex;align-items:center;gap:13px;padding:13px;background:var(--panel);border:1px solid var(--line);border-radius:17px;text-align:left;width:100%}
-.chat-avatar{width:47px;height:47px;border-radius:16px;background:#292929;display:grid;place-items:center;font-weight:800}
-.chat-info{flex:1;min-width:0}.chat-info b{display:block}.chat-info small{color:var(--muted)}
-.time{font-size:11px;color:var(--muted)}
-.empty{padding:35px 18px;text-align:center;border:1px dashed #444;border-radius:20px;color:var(--muted)}
-.profile-card{text-align:center;padding:28px 18px;background:var(--panel);border:1px solid var(--line);border-radius:22px}
-.big-avatar{width:82px;height:82px;border-radius:27px;background:#fff;color:#080808;display:grid;place-items:center;font-size:30px;font-weight:900;margin:0 auto 15px}
-.id-tag{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:30px;color:var(--muted);font-size:12px}
-.settings-list{display:grid;gap:9px}
-.setting{display:flex;justify-content:space-between;align-items:center;padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:15px}
-.setting span{color:var(--muted);font-size:13px}
-select{background:#222;color:#fff;border:1px solid #444;border-radius:10px;padding:8px;max-width:145px}
-.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;display:grid;grid-template-columns:repeat(4,1fr);padding:10px 9px calc(10px + env(safe-area-inset-bottom));background:rgba(10,10,10,.96);border-top:1px solid var(--line);backdrop-filter:blur(15px);z-index:5}
-.nav{border:0;background:none;color:#777;padding:7px 2px;font-size:11px;display:grid;gap:5px;justify-items:center}
-.nav i{font-style:normal;font-size:20px}.nav.active{color:#fff}
-input{width:100%;padding:14px;border-radius:13px;background:#1c1c1c;border:1px solid #383838;color:#fff;margin:8px 0}
-.light{--bg:#f4f4f4;--panel:#fff;--panel2:#eee;--text:#111;--muted:#666;--line:#ddd;--accent:#111}
-.light .hero{background:linear-gradient(135deg,#fff,#e9e9e9)}
-.light .bottom{background:rgba(245,245,245,.96)}
-.light .nav.active{color:#111}
-.light .pill{background:#111;color:#fff}
-.light .moment:first-child .moment-circle{background:#111;color:#fff}
-.light select,.light input{background:#fff;color:#111}
-@media(min-width:600px){body{background:#111}.app{border-left:1px solid #222;border-right:1px solid #222}}
+
+:root {
+  --bg: #080808;
+  --panel: #121212;
+  --panel2: #1b1b1b;
+  --text: #ffffff;
+  --muted: #858585;
+  --border: #292929;
+  --accent: #ffffff;
+}
+
+body.light {
+  --bg: #f5f5f5;
+  --panel: #ffffff;
+  --panel2: #eeeeee;
+  --text: #111111;
+  --muted: #777777;
+  --border: #dddddd;
+  --accent: #111111;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 90px;
+  transition: .2s;
+}
+
+header {
+  height: 65px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+}
+
+.logo span {
+  color: var(--muted);
+}
+
+.header-icon {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 13px;
+  border-radius: 13px;
+  font-size: 17px;
+}
+
+main {
+  max-width: 600px;
+  margin: auto;
+  padding: 22px 17px;
+}
+
+.page {
+  display: none;
+  animation: appear .2s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 27px;
+  margin-bottom: 7px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 25px;
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 25px 0 14px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 17px;
+  border-radius: 18px;
+  margin-bottom: 12px;
+}
+
+.stories {
+  display: flex;
+  gap: 13px;
+  overflow-x: auto;
+  padding: 5px 0 12px;
+}
+
+.story {
+  min-width: 65px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.story-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px solid var(--text);
+  background: var(--panel2);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 7px;
+  font-size: 21px;
+}
+
+.story.add .story-circle {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.moment {
+  min-height: 130px;
+  background: linear-gradient(135deg, #252525, #101010);
+  border-radius: 17px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+
+.moment strong {
+  font-size: 19px;
+}
+
+.moment p {
+  color: #aaa;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.quick-connect {
+  display: flex;
+  gap: 9px;
+}
+
+.quick-connect button {
+  flex: 1;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+.btn {
+  padding: 13px;
+  border-radius: 13px;
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 700;
+}
+
+.btn-secondary {
+  background: var(--panel2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 15px;
+  background: var(--panel2);
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-info strong {
+  font-size: 14px;
+}
+
+.user-info p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.online {
+  width: 8px;
+  height: 8px;
+  background: #75d99a;
+  border-radius: 50%;
+}
+
+.search {
+  width: 100%;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 14px;
+  border-radius: 13px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+.chat-preview {
+  display: flex;
+  flex-direction: column;
+  height: 360px;
+  gap: 12px;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+
+.message {
+  background: var(--panel2);
+  padding: 12px 15px;
+  border-radius: 15px;
+  max-width: 80%;
+  font-size: 14px;
+}
+
+.message.mine {
+  align-self: flex-end;
+  background: var(--text);
+  color: var(--bg);
+}
+
+.chat-input {
+  display: flex;
+  gap: 8px;
+}
+
+.chat-input input {
+  flex: 1;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 13px;
+  padding: 13px;
+  outline: none;
+}
+
+.chat-input button {
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 13px;
+  padding: 0 17px;
+}
+
+.ai-box {
+  text-align: center;
+  padding: 35px 15px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+.ai-symbol {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.profile-top {
+  text-align: center;
+  padding: 25px 10px;
+}
+
+.profile-avatar {
+  width: 85px;
+  height: 85px;
+  border-radius: 28px;
+  background: var(--text);
+  color: var(--bg);
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0 auto 15px;
+}
+
+.setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.setting select,
+.setting input {
+  max-width: 145px;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 9px;
+  padding: 8px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 11px 5px calc(11px + env(safe-area-inset-bottom));
+  z-index: 20;
+}
+
+.nav-item {
+  background: transparent;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  min-width: 60px;
+}
+
+.nav-item .nav-icon {
+  font-size: 21px;
+}
+
+.nav-item.active {
+  color: var(--text);
+  font-weight: bold;
+}
+
+.small-note {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+  margin-top: 13px;
+}
+
+@media (min-width: 700px) {
+  main { padding-top: 35px; }
+}
 </style>
 </head>
+
 <body>
-<div class="app">
+
 <header>
-  <div class="brand">meetora<span>.</span></div>
-  <div class="avatar">M</div>
+  <div class="logo">meetora<span>.</span></div>
+  <button class="header-icon" onclick="showPage('profile')">⚙</button>
 </header>
+
 <main>
+
 <section class="page active" id="home">
-  <div class="eyebrow" data-i="welcome">WELCOME BACK</div>
-  <h1 data-i="yourday">Your day, your people.</h1>
-  <p data-i="subtitle">A little closer to the people who matter.</p>
-  <div class="hero">
-    <div class="eyebrow">MEETORA / 01</div>
-    <h2 data-i="heroTitle">Make today meaningful.</h2>
-    <p data-i="heroText">Catch up, share a moment, or start a conversation.</p>
-    <button class="pill" onclick="go('chats')" data-i="openChats">Open chats ↗</button>
-  </div>
-  <div class="stats">
-    <div class="stat"><strong>01</strong><small data-i="yourSpace">Your space</small></div>
-    <div class="stat"><strong>∞</strong><small data-i="connections">Connections</small></div>
-  </div>
-  <div class="section">
-    <div class="section-head"><h2>Meetora Moments</h2><button class="link" onclick="go('profile')" data-i="yourMoments">Your moments</button></div>
-    <div class="moments">
-      <div class="moment"><div class="moment-circle">＋</div><span data-i="addStory">Add yours</span></div>
-      <div class="moment"><div class="moment-circle">✦</div><span>Discover</span></div>
-      <div class="moment"><div class="moment-circle">◌</div><span>Friends</span></div>
-      <div class="moment"><div class="moment-circle">⌁</div><span>Today</span></div>
+  <h1 id="welcome">Welcome to Meetora</h1>
+  <p class="subtitle">Your space. Your people. Your moments.</p>
+
+  <div class="section-title">Your Day</div>
+  <div class="stories">
+    <div class="story add" onclick="demo('Stories')">
+      <div class="story-circle">＋</div>
+      Add story
+    </div>
+    <div class="story">
+      <div class="story-circle">M</div>
+      Meetora
+    </div>
+    <div class="story">
+      <div class="story-circle">A</div>
+      Alex
+    </div>
+    <div class="story">
+      <div class="story-circle">J</div>
+      Jordan
+    </div>
+    <div class="story">
+      <div class="story-circle">S</div>
+      Sam
     </div>
   </div>
-  <div class="section">
-    <div class="section-head"><h2 data-i="quickConnect">Quick Connect</h2></div>
-    <div class="quick">
-      <button onclick="go('chats')"><b>✉ Messages</b><small data-i="sayHello">Say hello to someone</small></button>
-      <button onclick="go('ai')"><b>✧ AI Helper</b><small data-i="ideas">Ideas and assistance</small></button>
-    </div>
+
+  <div class="section-title">Meetora Moments</div>
+  <div class="moment">
+    <strong>Share your moment.</strong>
+    <p>A little part of your day can mean a lot.</p>
   </div>
-  <div class="section">
-    <div class="section-head"><h2 data-i="recentChats">Recent chats</h2><button class="link" onclick="go('chats')" data-i="seeAll">See all</button></div>
-    <div class="chat-list">
-      <button class="chat" onclick="go('chats')"><div class="chat-avatar">M</div><div class="chat-info"><b>Meetora Team</b><small data-i="welcomeChat">Welcome to Meetora</small></div><span class="time">Now</span></button>
+
+  <div class="section-title">Quick Connect</div>
+  <div class="quick-connect">
+    <button class="btn" onclick="showPage('chats')">Open chats</button>
+    <button class="btn btn-secondary" onclick="demo('Quick Connect')">Discover</button>
+  </div>
+
+  <div class="section-title">Recent activity</div>
+  <div class="card">
+    <div class="user-row">
+      <div class="avatar">M</div>
+      <div class="user-info">
+        <strong>Meetora Team</strong>
+        <p>Welcome to your new space.</p>
+      </div>
     </div>
+    <p class="small-note">This is a preview. Real accounts and online activity will be connected later.</p>
   </div>
 </section>
 
 <section class="page" id="chats">
-  <div class="eyebrow">MEETORA / 02</div><h1 data-i="chatsTitle">Your chats</h1>
-  <p data-i="chatsSub">Conversations start here.</p>
-  <input id="search" placeholder="Search chats..." oninput="filterChats()">
-  <div class="chat-list" id="chatList">
-    <button class="chat"><div class="chat-avatar">M</div><div class="chat-info"><b>Meetora Team</b><small data-i="welcomeChat">Welcome to Meetora</small></div><span class="time">Now</span></button>
-    <button class="chat"><div class="chat-avatar">✦</div><div class="chat-info"><b>New connections</b><small data-i="soon">Your conversations will appear here</small></div></button>
+  <h1>Chats</h1>
+  <p class="subtitle">Your conversations in one place.</p>
+
+  <input class="search" id="chatSearch" placeholder="Search conversations..." oninput="filterChats()">
+
+  <div id="chatList">
+    <div class="user-row" onclick="openChat('Alex')">
+      <div class="avatar">A</div>
+      <div class="user-info">
+        <strong>Alex</strong>
+        <p>Hey! Welcome to Meetora.</p>
+      </div>
+      <span class="online"></span>
+    </div>
+
+    <div class="user-row" onclick="openChat('Jordan')">
+      <div class="avatar">J</div>
+      <div class="user-info">
+        <strong>Jordan</strong>
+        <p>See you soon!</p>
+      </div>
+    </div>
+
+    <div class="user-row" onclick="openChat('Sam')">
+      <div class="avatar">S</div>
+      <div class="user-info">
+        <strong>Sam</strong>
+        <p>Let's talk later.</p>
+      </div>
+    </div>
   </div>
-  <div class="section empty" data-i="chatNote">This is a preview. Real messaging will be connected in a later development stage.</div>
+
+  <div id="chatWindow" style="display:none">
+    <button class="btn btn-secondary" onclick="closeChat()">← Back</button>
+    <div class="section-title" id="chatName">Chat</div>
+    <div class="chat-preview" id="messages">
+      <div class="message">Welcome to Meetora!</div>
+    </div>
+    <div class="chat-input">
+      <input id="messageInput" placeholder="Write a message..." onkeydown="if(event.key==='Enter')sendMessage()">
+      <button onclick="sendMessage()">➤</button>
+    </div>
+    <p class="small-note">Demo chat. Messages are only stored temporarily in this page.</p>
+  </div>
 </section>
 
 <section class="page" id="ai">
-  <div class="eyebrow">MEETORA / 03</div><h1>AI Helper</h1>
-  <p data-i="aiSub">A thoughtful space for ideas, questions and creativity.</p>
-  <div class="hero"><div class="big-avatar">✧</div><h2 data-i="aiHello">Hello. What are we exploring?</h2><p data-i="aiText">Your personal AI space is being prepared.</p></div>
-  <div class="section quick">
-    <button onclick="aiPrompt('Give me a creative idea')"><b>✦ Creative ideas</b><small>Find inspiration</small></button>
-    <button onclick="aiPrompt('Help me plan my day')"><b>◷ Plan my day</b><small>Organise your thoughts</small></button>
+  <h1>AI Helper</h1>
+  <p class="subtitle">A smarter space inside Meetora.</p>
+
+  <div class="ai-box">
+    <div class="ai-symbol">✳</div>
+    <h2>Meetora AI</h2>
+    <p class="small-note">Your assistant for ideas, creativity and everyday questions.</p>
+    <button class="btn" style="width:100%;margin-top:22px" onclick="demo('AI Helper')">Start conversation</button>
   </div>
-  <input id="aiInput" placeholder="Write a message...">
-  <button class="pill" onclick="sendAI()" data-i="send">Send</button>
-  <p id="aiReply"></p>
+
+  <div class="section-title">What you can do</div>
+  <div class="card">✦ Get creative ideas</div>
+  <div class="card">✦ Ask everyday questions</div>
+  <div class="card">✦ Organize your thoughts</div>
+  <p class="small-note">AI connection will be added in a future development stage.</p>
 </section>
 
 <section class="page" id="profile">
-  <div class="eyebrow">MEETORA / 04</div><h1 data-i="profileTitle">Your profile</h1>
-  <div class="profile-card section">
-    <div class="big-avatar">M</div>
+  <h1>Profile</h1>
+  <p class="subtitle">Your Meetora identity.</p>
+
+  <div class="card profile-top">
+    <div class="profile-avatar" id="avatarLetter">M</div>
     <h2 id="profileName">Meetora User</h2>
-    <div class="id-tag">Meetora ID · @meetora_user</div>
-    <p data-i="profileHint">Your identity. Your space.</p>
-    <button class="pill" onclick="editName()" data-i="editProfile">Edit profile</button>
+    <p class="small-note" id="profileId">@meetora_user</p>
+    <button class="btn btn-secondary" style="margin-top:15px" onclick="editProfile()">Edit profile</button>
   </div>
-  <div class="section section-head"><h2 data-i="settings">Settings</h2></div>
-  <div class="settings-list">
-    <div class="setting"><b data-i="language">Language</b><select id="language" onchange="setLanguage(this.value)"><option value="en">English</option><option value="uk">Українська</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="de">Deutsch</option><option value="es">Español</option><option value="fr">Français</option></select></div>
-    <div class="setting"><b data-i="appearance">Appearance</b><select id="theme" onchange="setTheme(this.value)"><option value="dark">Dark</option><option value="light">Light</option></select></div>
-    <div class="setting"><b data-i="privacy">Privacy</b><span>Coming soon</span></div>
-    <div class="setting"><b data-i="security">Security</b><span>Coming soon</span></div>
-    <div class="setting"><b data-i="storage">Storage</b><span>Coming soon</span></div>
+
+  <div class="section-title">Settings</div>
+  <div class="card">
+    <div class="setting">
+      <span>Account</span>
+      <span>›</span>
+    </div>
+    <div class="setting">
+      <span>Privacy</span>
+      <span>›</span>
+    </div>
+    <div class="setting">
+      <span>Security</span>
+      <span>›</span>
+    </div>
+    <div class="setting">
+      <span>Notifications</span>
+      <span>›</span>
+    </div>
+    <div class="setting">
+      <span>Language</span>
+      <select id="language" onchange="changeLanguage()">
+        <option value="en">English</option>
+        <option value="uk">Українська</option>
+        <option value="ru">Русский</option>
+        <option value="pl">Polski</option>
+        <option value="de">Deutsch</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+      </select>
+    </div>
+    <div class="setting">
+      <span>Appearance</span>
+      <select id="appearance" onchange="changeTheme()">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+    <div class="setting">
+      <span>Storage</span>
+      <button class="btn btn-secondary" onclick="clearStorage()">Manage</button>
+    </div>
   </div>
+
+  <div class="section-title">Meetora</div>
+  <div class="card">
+    <strong>Meetora ID</strong>
+    <p class="small-note">Your unique identity across Meetora.</p>
+    <p style="margin-top:10px">@meetora_user</p>
+  </div>
+  <p class="small-note">Version 0.1.0 · Meetora Preview</p>
 </section>
+
 </main>
-<nav class="bottom">
-  <button class="nav active" data-page="home" onclick="go('home')"><i>⌂</i><span>Home</span></button>
-  <button class="nav" data-page="chats" onclick="go('chats')"><i>▤</i><span>Chats</span></button>
-  <button class="nav" data-page="ai" onclick="go('ai')"><i>✧</i><span>AI Helper</span></button>
-  <button class="nav" data-page="profile" onclick="go('profile')"><i>◉</i><span>Profile</span></button>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" data-page="home" onclick="showPage('home')">
+    <span class="nav-icon">⌂</span>
+    <span>Home</span>
+  </button>
+  <button class="nav-item" data-page="chats" onclick="showPage('chats')">
+    <span class="nav-icon">▢</span>
+    <span>Chats</span>
+  </button>
+  <button class="nav-item" data-page="ai" onclick="showPage('ai')">
+    <span class="nav-icon">✳</span>
+    <span>AI Helper</span>
+  </button>
+  <button class="nav-item" data-page="profile" onclick="showPage('profile')">
+    <span class="nav-icon">◉</span>
+    <span>Profile</span>
+  </button>
 </nav>
-</div>
+
 <script>
-const translations={
-en:{welcome:"WELCOME BACK",yourday:"Your day, your people.",subtitle:"A little closer to the people who matter.",heroTitle:"Make today meaningful.",heroText:"Catch up, share a moment, or start a conversation.",openChats:"Open chats ↗",yourSpace:"Your space",connections:"Connections",yourMoments:"Your moments",addStory:"Add yours",quickConnect:"Quick Connect",sayHello:"Say hello to someone",ideas:"Ideas and assistance",recentChats:"Recent chats",seeAll:"See all",welcomeChat:"Welcome to Meetora",chatsTitle:"Your chats",chatsSub:"Conversations start here.",soon:"Your conversations will appear here",chatNote:"This is a preview. Real messaging will be connected in a later development stage.",aiSub:"A thoughtful space for ideas, questions and creativity.",aiHello:"Hello. What are we exploring?",aiText:"Your personal AI space is being prepared.",send:"Send",profileTitle:"Your profile",profileHint:"Your identity. Your space.",editProfile:"Edit profile",settings:"Settings",language:"Language",appearance:"Appearance",privacy:"Privacy",security:"Security",storage:"Storage"},
-uk:{welcome:"З ПОВЕРНЕННЯМ",yourday:"Твій день, твої люди.",subtitle:"Будь ближче до тих, хто важливий.",heroTitle:"Зроби сьогодні особливим.",heroText:"Спілкуйся, ділися моментами та починай розмови.",openChats:"Відкрити чати ↗",yourSpace:"Твій простір",connections:"Зв'язки",yourMoments:"Твої моменти",addStory:"Додати",quickConnect:"Швидкий зв'язок",sayHello:"Привітай когось",ideas:"Ідеї та допомога",recentChats:"Останні чати",seeAll:"Усі",welcomeChat:"Ласкаво просимо до Meetora",chatsTitle:"Твої чати",chatsSub:"Тут починається спілкування.",soon:"Тут з'являться твої розмови",chatNote:"Це демонстрація. Справжні повідомлення підключимо пізніше.",aiSub:"Простір для ідей, запитань і творчості.",aiHello:"Привіт! Що дослідимо?",aiText:"Твій особистий AI-простір готується.",send:"Надіслати",profileTitle:"Твій профіль",profileHint:"Твоя особистість. Твій простір.",editProfile:"Редагувати профіль",settings:"Налаштування",language:"Мова",appearance:"Вигляд",privacy:"Приватність",security:"Безпека",storage:"Сховище"},
-ru:{welcome:"С ВОЗВРАЩЕНИЕМ",yourday:"Твой день, твои люди.",subtitle:"Будь ближе к тем, кто важен.",heroTitle:"Сделай сегодняшний день особенным.",heroText:"Общайся, делись моментами и начинай разговоры.",openChats:"Открыть чаты ↗",yourSpace:"Твоё пространство",connections:"Связи",yourMoments:"Твои моменты",addStory:"Добавить",quickConnect:"Быстрая связь",sayHello:"Поздоровайся с кем-нибудь",ideas:"Идеи и помощь",recentChats:"Недавние чаты",seeAll:"Все",welcomeChat:"Добро пожаловать в Meetora",chatsTitle:"Твои чаты",chatsSub:"Здесь начинается общение.",soon:"Здесь появятся твои разговоры",chatNote:"Это демонстрация. Настоящие сообщения подключим позже.",aiSub:"Пространство для идей, вопросов и творчества.",aiHello:"Привет! Что изучим?",aiText:"Твоё личное пространство AI готовится.",send:"Отправить",profileTitle:"Твой профиль",profileHint:"Твоя личность. Твоё пространство.",editProfile:"Изменить профиль",settings:"Настройки",language:"Язык",appearance:"Внешний вид",privacy:"Приватность",security:"Безопасность",storage:"Хранилище"}
-};
-function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('active',n.dataset.page===id));window.scrollTo(0,0)}
-function setLanguage(lang){localStorage.setItem('meetora-language',lang);const t=translations[lang]||translations.en;document.querySelectorAll('[data-i]').forEach(el=>{const k=el.dataset.i;if(t[k])el.textContent=t[k]});document.documentElement.lang=lang}
-function setTheme(theme){document.body.classList.toggle('light',theme==='light');localStorage.setItem('meetora-theme',theme)}
-function editName(){const n=prompt('Enter your display name:');if(n&&n.trim()){document.getElementById('profileName').textContent=n.trim();localStorage.setItem('meetora-name',n.trim())}}
-function filterChats(){const q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('#chatList .chat').forEach(c=>c.style.display=c.textContent.toLowerCase().includes(q)?'flex':'none')}
-function aiPrompt(t){document.getElementById('aiInput').value=t}
-function sendAI(){const v=document.getElementById('aiInput').value.trim();if(!v)return;document.getElementById('aiReply').textContent='AI Helper is a preview. Connect an AI service in a future stage to receive real answers.';document.getElementById('aiInput').value=''}
-document.getElementById('language').value=localStorage.getItem('meetora-language')||'en';setLanguage(document.getElementById('language').value);
-document.getElementById('theme').value=localStorage.getItem('meetora-theme')||'dark';setTheme(document.getElementById('theme').value);
-document.getElementById('profileName').textContent=localStorage.getItem('meetora-name')||'Meetora User';
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.page === page);
+  });
+
+  window.scrollTo(0, 0);
+}
+
+function demo(feature) {
+  alert(feature + ' is part of the Meetora preview. This feature will be connected later.');
+}
+
+function filterChats() {
+  const query = document.getElementById('chatSearch').value.toLowerCase();
+  document.querySelectorAll('#chatList .user-row').forEach(row => {
+    row.style.display = row.innerText.toLowerCase().includes(query) ? 'flex' : 'none';
+  });
+}
+
+let currentChat = '';
+
+function openChat(name) {
+  currentChat = name;
+  document.getElementById('chatList').style.display = 'none';
+  document.getElementById('chatSearch').style.display = 'none';
+  document.getElementById('chatWindow').style.display = 'block';
+  document.getElementById('chatName').innerText = name;
+}
+
+function closeChat() {
+  document.getElementById('chatList').style.display = 'block';
+  document.getElementById('chatSearch').style.display = 'block';
+  document.getElementById('chatWindow').style.display = 'none';
+}
+
+function sendMessage() {
+  const input = document.getElementById('messageInput');
+  const value = input.value.trim();
+  if (!value) return;
+
+  const message = document.createElement('div');
+  message.className = 'message mine';
+  message.textContent = value;
+  document.getElementById('messages').appendChild(message);
+
+  input.value = '';
+  document.getElementById('messages').scrollTop =
+    document.getElementById('messages').scrollHeight;
+}
+
+function editProfile() {
+  const oldName = localStorage.getItem('meetoraName') || 'Meetora User';
+  const newName = prompt('Enter your display name:', oldName);
+
+  if (newName && newName.trim()) {
+    localStorage.setItem('meetoraName', newName.trim());
+    updateProfile();
+  }
+}
+
+function updateProfile() {
+  const name = localStorage.getItem('meetoraName') || 'Meetora User';
+  document.getElementById('profileName').innerText = name;
+  document.getElementById('avatarLetter').innerText = name.charAt(0).toUpperCase();
+}
+
+function changeTheme() {
+  const theme = document.getElementById('appearance').value;
+  document.body.classList.toggle('light', theme === 'light');
+  localStorage.setItem('meetoraTheme', theme);
+}
+
+function changeLanguage() {
+  const language = document.getElementById('language').value;
+  localStorage.setItem('meetoraLanguage', language);
+  alert('Language preference saved. Full translations are coming later.');
+}
+
+function clearStorage() {
+  if (confirm('Clear Meetora local settings?')) {
+    localStorage.removeItem('meetoraName');
+    localStorage.removeItem('meetoraTheme');
+    localStorage.removeItem('meetoraLanguage');
+    location.reload();
+  }
+}
+
+function loadSettings() {
+  const theme = localStorage.getItem('meetoraTheme') || 'dark';
+  document.body.classList.toggle('light', theme === 'light');
+  document.getElementById('appearance').value = theme;
+
+  document.getElementById('language').value =
+    localStorage.getItem('meetoraLanguage') || 'en';
+
+  updateProfile();
+}
+
+loadSettings();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(error => {
+      console.log('Service Worker registration failed:', error);
+    });
+  });
+}
 </script>
+
 </body>
 </html>
